@@ -36,8 +36,7 @@ endif()
 # --- OPTIONS  ---------------------------------------
 # Need to be set before including base.cmake
 # ----------------------------------------------------
-option(BUILD_DOCUMENTATION "Build the documentation." OFF)
-option(INSTALL_DOCUMENTATION "Install the documentation" OFF)
+option(INSTALL_DOCUMENTATION "Generate and install the documentation" OFF)
 set(DOXYGEN_USE_MATHJAX YES)
 set(DOXYGEN_USE_TEMPLATE_CSS YES)
 
@@ -168,31 +167,3 @@ if(BUILD_TESTING AND NOT PROXSUITE_AS_SUBPROJECT)
   add_subdirectory(test)
   add_subdirectory(examples)
 endif()
-
-# catkin/ament/colcon integration (ROS1/2)
-install(FILES package.xml DESTINATION share/${PROJECT_NAME})
-# Allows Colcon to find non-Ament packages when using workspace underlays
-file(
-  WRITE
-  ${CMAKE_CURRENT_BINARY_DIR}/share/ament_index/resource_index/packages/${PROJECT_NAME}
-  "")
-install(
-  FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/share/ament_index/resource_index/packages/${PROJECT_NAME}
-  DESTINATION share/ament_index/resource_index/packages)
-file(
-  WRITE
-  ${CMAKE_CURRENT_BINARY_DIR}/share/${PROJECT_NAME}/hook/ament_prefix_path.dsv
-  "prepend-non-duplicate;AMENT_PREFIX_PATH;")
-install(
-  FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/share/${PROJECT_NAME}/hook/ament_prefix_path.dsv
-  DESTINATION share/${PROJECT_NAME}/hook)
-if(BUILD_PYTHON_INTERFACE)
-  file(WRITE
-       ${CMAKE_CURRENT_BINARY_DIR}/share/${PROJECT_NAME}/hook/python_path.dsv
-       "prepend-non-duplicate;PYTHONPATH;${PYTHON_SITELIB}")
-  install(
-    FILES ${CMAKE_CURRENT_BINARY_DIR}/share/${PROJECT_NAME}/hook/python_path.dsv
-    DESTINATION share/${PROJECT_NAME}/hook)
-endif(BUILD_PYTHON_INTERFACE)

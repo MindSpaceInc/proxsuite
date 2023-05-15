@@ -1,6 +1,3 @@
-if(UNIX)
-  set(PYTHON_COMPONENTS Development.Module)
-endif()
 include(../../cmake-module/python.cmake)
 
 findpython(REQUIRED Development.Module)

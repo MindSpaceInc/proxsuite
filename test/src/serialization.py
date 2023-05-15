@@ -39,6 +39,7 @@ def generate_mixed_qp(n, seed=1):
 
 
 def generic_test(object, filename):
+
     try:
         with open(filename, "wb") as f:
             pickle.dump(object, f)
